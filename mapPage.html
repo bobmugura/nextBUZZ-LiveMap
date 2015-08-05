@@ -1,0 +1,66 @@
+<html>
+<head>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+	</script>
+	<script src="dependencies/fvlogger/logger.js"></script>	
+	<link rel="stylesheet" type="text/css" href="dependencies/fvlogger/logger.css"/>
+	<script src="livemap.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="fvlogger" style="display: none">
+  		<dl>
+    		<dt>fvlogger</dt>
+    		<dd class="all">
+      			<a href="#fvlogger" onclick="showAll();" title="show all">all</a>
+    		</dd>
+    		<dd class="debug">
+      			<a href="#fvlogger" onclick="showDebug();" title="show debug">debug</a>
+    		</dd>
+    		<dd class="info">
+      			<a href="#fvlogger" onclick="showInfo();" title="show info">info</a>
+    		</dd>
+    		<dd class="warn">
+      			<a href="#fvlogger" onclick="showWarn();" title="show warnings">warn</a>
+    		</dd>
+    		<dd class="error">
+      			<a href="#fvlogger" onclick="showError();" title="show errors">error</a>
+    		</dd>
+    		<dd>
+      			<a href="#fvlogger" onclick="eraseLog(true);" title="erase">erase</a>
+      		</dd>
+  		</dl>
+	</div>
+	<select name="mobileRouteSelector" id="mobSel" display="none" onchange='mobSelChange()' onfocus="this.selectedIndex = -1;" style="height: 10%; width: 100%; display: none; font-size: 50px">
+		<option name='Select a Route' value='none'/>
+	</select>
+	<div id="map" style="height: 100%; width: 100%"/>
+</body>
+<script>
+
+function mobSelChange() {
+	var mobSelector = document.getElementById("mobSel");
+	var selVal = mobSelector.options[mobSelector.selectedIndex].value;
+	toggleLayer(selVal);
+	//Reset to empty selection
+	mobSelector.selectedIndex = 0;
+}
+
+function createMap() {
+	var isMobile = L.Browser.mobile;
+	if(isMobile) {
+		document.getElementById('map').style.height = "90%";
+		document.getElementById('mobSel').style.display = "inline";
+	}
+	var map = L.map('map').setView([33.7765,-84.3999],16);
+	initMap(map,document.getElementById("mobSel"),isMobile);
+}
+
+function showLogger() {
+	document.getElementById('fvlogger').style.display = "block";
+}
+
+createMap();
+</script>
+</html>
